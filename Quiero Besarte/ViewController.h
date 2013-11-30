@@ -10,7 +10,8 @@
 
 @interface ViewController : UIViewController
 
-@property (strong, nonatomic) IBOutlet UITextField *textField;
+//Field login
+@property (strong, nonatomic) IBOutlet UITextField *idWedding;
 -(IBAction)textFieldReturn:(id)sender;
 @end
 
