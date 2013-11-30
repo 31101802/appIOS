@@ -12,6 +12,7 @@
 
 //the web location of the service
 NSString *kAPIPathWedding = @"http://quierobesarte.es.nt5.unoeuro-server.com/api/Wedding";
+NSString *kAPIPathGetImagesWedding = @"http://quierobesarte.es.nt5.unoeuro-server.com/api/images";
 NSString *kAppVersion = @"1.0";
 
 @synthesize idWedding;
@@ -107,6 +108,76 @@ NSString *kAppVersion = @"1.0";
     }];
     [[NSOperationQueue mainQueue] addOperation:op];
 }
+
+
+-(void) getImages:(NSString*)passWedding onCompletion:(JSONResponseBlock)completionBlock
+{
+    
+    
+    NSString *composedURL = [NSString stringWithFormat: @"%@/%@?page=3&numItems=15", kAPIPathGetImagesWedding,passWedding];
+    NSLog(@"%@", composedURL);
+    NSURL *URL = [NSURL URLWithString:composedURL];
+    NSMutableURLRequest *request = [NSURLRequest requestWithURL:URL];
+    
+    
+    // Create a mutable copy of the immutable request and add more headers
+    NSMutableURLRequest *mutableRequest = [request mutableCopy];
+    [mutableRequest addValue:kAppVersion forHTTPHeaderField:@"App-Version"];
+    
+    // Now set our request variable with an (immutable) copy of the altered request
+    request = [mutableRequest copy];
+    
+    // Log the output to make sure our new headers are there
+    NSLog(@"%@", request.allHTTPHeaderFields);
+    
+    AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Status Code: %ld", (long)[operation.response statusCode]);
+        
+        long httpCode = (long)[operation.response statusCode];
+        
+        
+        NSMutableDictionary *dict = [NSMutableDictionary alloc];
+        
+        switch (httpCode) {             
+            case 200:
+            {
+                NSError *error;
+                dict = [NSJSONSerialization JSONObjectWithData:responseObject options:kNilOptions error:&error];
+                break;
+            }
+            default:
+                break;
+        }
+        
+        completionBlock(dict);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSMutableDictionary *dict = [NSMutableDictionary alloc];
+        long httpCode  = [[[error userInfo] objectForKey:AFNetworkingOperationFailingURLResponseErrorKey] statusCode];
+        
+        
+        switch (httpCode) {
+            case 426:
+            {
+                dict = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"426", nil]
+                                                          forKeys:[NSArray arrayWithObjects:@"RESULT", nil]];
+                break;
+            }
+                
+            default:
+                dict = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"404", nil]
+                                                          forKeys:[NSArray arrayWithObjects:@"RESULT", nil]];
+                break;
+        }
+        
+        completionBlock(dict);
+        
+    }];
+    [[NSOperationQueue mainQueue] addOperation:op];
+}
+
 
 
 

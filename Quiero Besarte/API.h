@@ -19,5 +19,6 @@ typedef void (^JSONResponseBlock)(NSDictionary* json);
 
 //check whether there's an authorized user
 -(void)login:(NSString*)passWedding onCompletion:(JSONResponseBlock)completionBlock;
+-(void)getImages:(NSString*)passWedding onCompletion:(JSONResponseBlock)completionBlock;
 
 @end

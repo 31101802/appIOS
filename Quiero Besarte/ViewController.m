@@ -19,6 +19,7 @@
     [super viewDidLoad];
     
     // Do any additional setup after loading the view, typically from a nib.
+    _idWedding.text = @"1";
 }
 
 - (void)didReceiveMemoryWarning
@@ -112,12 +113,12 @@
             //Everything was fine
             else
             {
-                NSString *jsonObject = [json objectForKey: @"id"];
+                NSString *jsonObject = [json objectForKey: @"Id"];
                 NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
                 
                 if (standardUserDefaults) {
                     [standardUserDefaults setObject:jsonObject forKey:@"idWedding"];
-                    [standardUserDefaults synchronize];
+                    [standardUserDefaults synchronize];                    
                 }
                 [indicator stopAnimating];
                 //menuTransition
