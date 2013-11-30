@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>0226D4A0-E42A-4A13-B6FC-A230EC5EB98C</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Quiero Besarte</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>AA6E82DA-9967-4107-B72E-B6E89FFB3CBD</key>
+		<string>https://github.com/31101802/appIOS.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Quiero Besarte.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>AA6E82DA-9967-4107-B72E-B6E89FFB3CBD</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/31101802/appIOS.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>AA6E82DA-9967-4107-B72E-B6E89FFB3CBD</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>AA6E82DA-9967-4107-B72E-B6E89FFB3CBD</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Quiero Besarte</string>
+		</dict>
+	</array>
+</dict>
+</plist>
