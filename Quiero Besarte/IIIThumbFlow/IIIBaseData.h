@@ -14,4 +14,7 @@
 // URL for web image
 @property (strong, nonatomic) NSString *web_url;
 
+// URL for web image big
+@property (strong, nonatomic) NSString *web_url_big;
+
 @end

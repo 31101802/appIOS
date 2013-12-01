@@ -114,7 +114,7 @@ NSString *kAppVersion = @"1.0";
 {
     
     
-    NSString *composedURL = [NSString stringWithFormat: @"%@/%@?page=3&numItems=15", kAPIPathGetImagesWedding,passWedding];
+    NSString *composedURL = [NSString stringWithFormat: @"%@/%@?page=1&numItems=2000", kAPIPathGetImagesWedding,passWedding];
     NSLog(@"%@", composedURL);
     NSURL *URL = [NSURL URLWithString:composedURL];
     NSMutableURLRequest *request = [NSURLRequest requestWithURL:URL];

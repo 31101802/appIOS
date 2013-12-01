@@ -181,10 +181,31 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Ver fotos" id="cbc-cZ-0Zj"/>
+                    <connections>
+                        <segue destination="kkt-RS-sjb" kind="push" identifier="DetailPhotoTransition" id="wpn-HI-MPm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2BZ-d1-w83" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1507" y="441"/>
+            <point key="canvasLocation" x="1322" y="453"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="a7r-XH-vFJ">
+            <objects>
+                <viewController id="kkt-RS-sjb" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eGT-q7-doS"/>
+                        <viewControllerLayoutGuide type="bottom" id="z2m-R8-fYo"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="qUZ-AM-hgk">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="p31-cv-5rq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1774" y="453"/>
         </scene>
     </scenes>
     <resources>

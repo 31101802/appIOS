@@ -10,16 +10,14 @@
 #import "IIIBaseData.h"
 #import "SDImageCache+IIIThumb.h"
 #import "API.h"
+#import <AssetsLibrary/AssetsLibrary.h>
 
 @interface ViewerController (){
     NSString *_basePath;
-
 }
 
 @property (strong, nonatomic)NSMutableArray *dataSource;
-@property (strong, nonatomic)NSMutableArray *dataSourceBig;
 @property (strong, nonatomic)NSMutableArray *testA;
-@property (strong, nonatomic)NSMutableArray *testB;
 @property (strong, nonatomic)UIActivityIndicatorView *indicator;
 
 @end
@@ -31,7 +29,7 @@
 
 
 @synthesize dataSource = _dataSource, testA;
-@synthesize dataSourceBig = _dataSourceBig, testB;
+
 
 int currentY = 0;
 
@@ -82,7 +80,7 @@ int currentY = 0;
                 }
                 else
                 {
-                    message = @"Ha habido un error. Disculpe las molestias";
+                    message = @"Ha habido un error. Disculpe las molestias.";
                 }
                 UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Información"
                                                              message:message
@@ -97,7 +95,6 @@ int currentY = 0;
                 NSString *kAPIPathGetImagesWedding = @"http://quierobesarte.es.nt5.unoeuro-server.com";
                 IIIBaseData *d;
                 self.dataSource = [NSMutableArray arrayWithCapacity:0];
-                self.dataSourceBig = [NSMutableArray arrayWithCapacity:0];
                 
                 for (NSDictionary* key in json) {
                     
@@ -106,19 +103,17 @@ int currentY = 0;
                         // do stuff
                         d = [[IIIBaseData alloc] init];
                     
-                        imageThumbnailPath = [imageThumbnailPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                        imageThumbnailPath = [imageThumbnailPath stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
                         d.web_url = [NSString stringWithFormat: @"%@%@", kAPIPathGetImagesWedding,imageThumbnailPath];
+                    
+                    
+                        image = [image stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+                        d.web_url_big =[NSString stringWithFormat: @"%@%@", kAPIPathGetImagesWedding,image];
                         [self.dataSource addObject:d];
                     
-                        image = [image stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-                        d.web_url =[NSString stringWithFormat: @"%@%@", kAPIPathGetImagesWedding,image];
-                        NSLog(@"JSON: %@",d.web_url);
-                        [self.dataSourceBig addObject:d];
                     
                 
                 }
-                
-                    
                 
                 
                 [_indicator stopAnimating];
@@ -194,9 +189,10 @@ int currentY = 0;
     {
         
         UIImage *img;
-        IIIBaseData *d = [self.dataSourceBig objectAtIndex:index];
+        IIIBaseData *d = [self.dataSource objectAtIndex:index];
         img = [[SDImageCache sharedThumbImageCache] imageFromKey:d.local_url];
         if (!img) {
+            
             img = [[SDImageCache sharedThumbImageCache] imageFromKey:d.web_url];
         }
         if (img) {
@@ -216,6 +212,8 @@ int currentY = 0;
 
 // optional
 - (void)didDownloadedImage:(UIImage *)image atIndex:(int)index {
+    
+    NSLog(@"Done");
     IIIBaseData *d = [self.dataSource objectAtIndex:index];
     d.local_url = [_basePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%i_web.jpg", index+1]];
     NSData *imgData = [NSData dataWithData:UIImageJPEGRepresentation(image, 1.0f)];
@@ -226,6 +224,9 @@ int currentY = 0;
         d.local_url = nil;
     }
 }
+
+
+
 
 
 @end

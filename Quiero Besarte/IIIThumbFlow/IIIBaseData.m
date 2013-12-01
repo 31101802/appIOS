@@ -11,5 +11,6 @@
 @implementation IIIBaseData
 @synthesize local_url = _local_url;
 @synthesize web_url = _web_url;
+@synthesize web_url_big = _web_url_big;
 
 @end
