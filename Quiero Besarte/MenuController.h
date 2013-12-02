@@ -7,7 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "API.h"
+#import "Image.h"
+#import "MWPhotoBrowser.h"
+#import <AssetsLibrary/AssetsLibrary.h>
 
-@interface MenuController : UIViewController
+
+@interface MenuController : UIViewController <MWPhotoBrowserDelegate>
+
+
+@property (nonatomic, strong) NSMutableArray *photos;
+
+@property (atomic, strong) ALAssetsLibrary *assetLibrary;
+@property (atomic, strong) NSMutableArray *assets;
+
+- (void)loadAssets;
 
 @end

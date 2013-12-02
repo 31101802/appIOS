@@ -154,58 +154,18 @@
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnUploadPhotos:" destination="oSO-dT-z8Z" eventType="touchDown" id="6Tg-cA-BqW"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <connections>
-                        <segue destination="dh3-fm-1RB" kind="push" identifier="ViewPhotosTransition" id="qNv-ML-7f8"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uVX-h8-34c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="891" y="448"/>
-        </scene>
-        <!--Viewer Controller - Ver fotos-->
-        <scene sceneID="Cyf-um-Xmk">
-            <objects>
-                <viewController id="dh3-fm-1RB" customClass="ViewerController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="UsR-YY-WH9"/>
-                        <viewControllerLayoutGuide type="bottom" id="svf-6f-IRm"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="N70-tl-Zse">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Ver fotos" id="cbc-cZ-0Zj"/>
-                    <connections>
-                        <segue destination="kkt-RS-sjb" kind="push" identifier="DetailPhotoTransition" id="wpn-HI-MPm"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2BZ-d1-w83" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1322" y="453"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="a7r-XH-vFJ">
-            <objects>
-                <viewController id="kkt-RS-sjb" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="eGT-q7-doS"/>
-                        <viewControllerLayoutGuide type="bottom" id="z2m-R8-fYo"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="qUZ-AM-hgk">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="p31-cv-5rq" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1774" y="453"/>
         </scene>
     </scenes>
     <resources>
