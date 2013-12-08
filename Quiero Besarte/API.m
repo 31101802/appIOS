@@ -110,7 +110,7 @@ NSString *kAppVersion = @"1.0";
 
 
 
--(void)upLoadPhoto:(NSString*)passWedding image:(UIImage*)myImage
+-(void)upLoadPhoto:(NSString*)passWedding image:(UIImage*)myImage onCompletion:(JSONResponseBlock)completionBlock
 {
     
     NSString *composedURL = [NSString stringWithFormat: @"%@/Upload/?guid=%@", kAPIPathUploader,passWedding];
@@ -131,49 +131,64 @@ NSString *kAppVersion = @"1.0";
     [manager POST:composedURL
     parameters:parameters
     constructingBodyWithBlock:^(id<AFMultipartFormData> formData){
-    [formData appendPartWithFileData:UIImageJPEGRepresentation(image, 0.7)
+    [formData appendPartWithFileData:UIImageJPEGRepresentation(image, 0.2)
                                 name:@"uploaded_files"
                             fileName:@"photo.jpg"
                             mimeType:@"image/jpeg"];
 }
           success:^(AFHTTPRequestOperation *operation, id responseObject){
-              NSLog(@"Success: %@", responseObject);
+              NSLog(@"Status Code: %ld", (long)[operation.response statusCode]);
+              
+              long httpCode = (long)[operation.response statusCode];
+              
+              
+              NSMutableDictionary *dict = [NSMutableDictionary alloc];
+              
+              switch (httpCode) {
+                  case 200:
+                  {
+                      dict = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"200", nil]
+                                                                forKeys:[NSArray arrayWithObjects:@"RESULT", nil]];
+                      break;
+                  }
+                  default:
+                      break;
+              }
+              
+              completionBlock(dict);
           }
           failure:^(AFHTTPRequestOperation *operation, NSError *error){
-              NSLog(@"Error %@", operation.responseString);
+              NSMutableDictionary *dict = [NSMutableDictionary alloc];
+              long httpCode  = [[[error userInfo] objectForKey:AFNetworkingOperationFailingURLResponseErrorKey] statusCode];
+              
+              
+              switch (httpCode) {
+                  case 426:
+                  {
+                      dict = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"426", nil]
+                                                                forKeys:[NSArray arrayWithObjects:@"RESULT", nil]];
+                      break;
+                  }
+                      
+                  case 401:
+                  {
+                      dict = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"401", nil]
+                                                                forKeys:[NSArray arrayWithObjects:@"RESULT", nil]];
+                      break;
+                  }
+                      
+                  default:
+                      dict = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"404", nil]
+                                                                forKeys:[NSArray arrayWithObjects:@"RESULT", nil]];
+                      break;
+              }
+              
+              completionBlock(dict);
           }];
     
     
     
-    /*AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-     
-     CGFloat compression = 0.9f;
-     CGFloat maxCompression = 0.1f;
-     int maxFileSize = 250*1024;
-     
-     NSData *imageData = UIImageJPEGRepresentation(myImage, compression);
-     
-     while ([imageData length] > maxFileSize && compression > maxCompression)
-     {
-     compression -= 0.1;
-     imageData = UIImageJPEGRepresentation(myImage, compression);
-     }
-     
-     NSDictionary *parameters = @{@"foo": @"bar"};
-     
-     [manager POST:composedURL parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-     
-     [formData appendPartWithFileData:imageData name:@"uploaded_files" fileName:@"Foto" mimeType:@"application/x-www-form-urlencoded"];
-     
-     
-     
-     
-     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-     NSLog(@"Success: %@", responseObject);
-     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-     NSLog(@"Error: %@", error);
-     }];*/
-    
+        
 }
 
 -(void) getImages:(NSString*)passWedding onCompletion:(JSONResponseBlock)completionBlock

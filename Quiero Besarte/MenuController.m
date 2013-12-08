@@ -9,10 +9,15 @@
 #import "MenuController.h"
 
 @interface MenuController ()
-
+{
+    UIAlertView  *firstAlertView;
+    UIAlertView  *secondAlertView;
+}
 
 @property (strong, nonatomic)NSMutableArray *dataSource;
 @property (strong, nonatomic)UIActivityIndicatorView *indicator;
+@property (strong, nonatomic)NSString *idWedding;
+@property (strong, nonatomic)UIImage *photo;
 
 @end
 
@@ -56,7 +61,7 @@
 #if TARGET_IPHONE_SIMULATOR
     imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
 #else
-    imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+    imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
 #endif
     imagePickerController.editing = YES;
     imagePickerController.delegate = (id)self;
@@ -110,12 +115,12 @@
             {
                 message = @"Ha habido un error. Disculpe las molestias.";
             }
-            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Información"
-                                                         message:message
-                                                        delegate:self
-                                               cancelButtonTitle:@"OK"
-                                               otherButtonTitles:nil];
-            [av show];
+            firstAlertView = [[UIAlertView alloc] initWithTitle:@""
+                                                        message:message
+                                                       delegate:self
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+            [firstAlertView show];
         }
         //Everything was fine
         else
@@ -251,17 +256,175 @@
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     // getting an NSString
-    NSString *idWedding = [prefs stringForKey:@"idWedding"];
+    _idWedding = [prefs stringForKey:@"idWedding"];
     
 	UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    _photo = image;
     // Resize the image from the camera
 	[picker dismissModalViewControllerAnimated:NO];
+    [self showConfirmAlert];
     
-    [[API sharedInstance] upLoadPhoto:idWedding image:image];
 }
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissModalViewControllerAnimated:NO];
+}
+
+- (void)showConfirmAlert
+{
+    secondAlertView = [[UIAlertView alloc] init];
+    [secondAlertView setTitle:@""];
+    [secondAlertView setMessage:@"Quieres subir esta foto?"];
+    [secondAlertView setDelegate:self];
+    [secondAlertView addButtonWithTitle:@"Sí"];
+    [secondAlertView addButtonWithTitle:@"No"];
+    [secondAlertView show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    
+    if (alertView == secondAlertView)
+    {
+        
+        
+        
+        if (buttonIndex == 0)
+        {
+            // Yes, do something
+            
+            _indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            [_indicator setFrame:self.view.frame];
+            
+            [_indicator.layer setBackgroundColor:[[UIColor colorWithWhite: 0.0 alpha:0.30] CGColor]];
+            [_indicator layer].cornerRadius = 8.0;
+            [_indicator layer].masksToBounds = YES;
+            _indicator.transform = CGAffineTransformMakeScale(1.75, 1.75);
+            _indicator.center = self.view.center;
+            [self.view addSubview:_indicator];
+            [_indicator bringSubviewToFront:self.view];
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = TRUE;
+            [_indicator startAnimating];
+            
+            [[API sharedInstance] upLoadPhoto:_idWedding image:_photo onCompletion:^(NSDictionary *json) {
+                NSString *message;
+                //if json has just one value, some problem...
+                if([json count] == 1)
+                {
+                    NSString *jsonObject = [json objectForKey: @"RESULT"];
+                    
+                    if([jsonObject isEqualToString:@"200"])
+                    {
+                        message = @"Foto subida correctamente!!";
+                    }
+                    
+                    else if([jsonObject isEqualToString:@"426"])
+                    {
+                        message = @"Por favor actualice la aplicación en la Apple Store";
+                    }
+                    else if([jsonObject isEqualToString:@"401"])
+                    {
+                        message = @"Esta boda no está activa";
+                    }
+                    else
+                    {
+                        message = @"Ha habido un error. Disculpe las molestias.";
+                    }
+                    
+                }
+                else
+                {
+                    message = @"Ha habido un error. Disculpe las molestias.";
+                }
+                
+                
+                [_indicator stopAnimating];
+                
+                firstAlertView = [[UIAlertView alloc] initWithTitle:@""
+                                                            message:message
+                                                           delegate:self
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+                [firstAlertView show];
+                
+                
+                
+            }];
+            
+            
+            
+        }
+        else if (buttonIndex == 1)
+        {
+            // No
+        }
+        
+    }
+    
+    
+    
+    
+}
+
+- (UIImage *)resizeImage:(UIImage*)image newSize:(CGSize)newSize {
+    
+    CGSize scaledSize = newSize;
+    float scaleFactor = 1.0;
+    if( image.size.width > image.size.height ) {
+        scaleFactor = image.size.width / image.size.height;
+        scaledSize.width = newSize.width;
+        scaledSize.height = newSize.height / scaleFactor;
+    }
+    else {
+        scaleFactor = image.size.height / image.size.width;
+        scaledSize.height = newSize.height;
+        scaledSize.width = newSize.width / scaleFactor;
+    }
+    
+    
+    
+    CGRect newRect = CGRectIntegral(CGRectMake(0, 0, scaledSize.width, scaledSize.height));
+    CGImageRef imageRef = image.CGImage;
+    
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    // Set the quality level to use when rescaling
+    CGContextSetInterpolationQuality(context, kCGInterpolationHigh);
+    CGAffineTransform flipVertical = CGAffineTransformMake(1, 0, 0, -1, 0, scaledSize.height);
+    
+    CGContextConcatCTM(context, flipVertical);
+    // Draw into the context; this scales the image
+    CGContextDrawImage(context, newRect, imageRef);
+    
+    // Get the resized image from the context and a UIImage
+    CGImageRef newImageRef = CGBitmapContextCreateImage(context);
+    UIImage *newImage = [UIImage imageWithCGImage:newImageRef];
+    
+    CGImageRelease(newImageRef);
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
+
+
+-(IBAction)facebook:(id)sender
+{
+    NSURL *url = [NSURL URLWithString:@"fb://profile/281514515307124"];
+    [[UIApplication sharedApplication] openURL:url];
+}
+
+-(IBAction)twitter:(id)sender
+{
+    NSURL *url = [NSURL URLWithString:@"twitter:///user?screen_name=quierobesarte.es"];
+    [[UIApplication sharedApplication] openURL:url];
+    
+}
+
+-(IBAction)vimeo:(id)sender
+{
+    NSURL *url = [NSURL URLWithString:@"https://vimeo.com/quierobesarte"];
+    [[UIApplication sharedApplication] openURL:url];
 }
 
 

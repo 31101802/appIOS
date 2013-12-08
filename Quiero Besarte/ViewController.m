@@ -19,8 +19,7 @@
     [super viewDidLoad];
     
     // Do any additional setup after loading the view, typically from a nib.
-    _idWedding.text = @"1";
-}
+    }
 
 - (void)didReceiveMemoryWarning
 {
@@ -52,6 +51,8 @@
     
 }
 
+
+
 -(void) login
 {
     //create indicator to show loading...
@@ -72,7 +73,7 @@
     //form fields validation
     if (_idWedding.text.length == 0) {
         [indicator stopAnimating];
-        UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Información"
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle:@""
                                                      message:[NSString stringWithFormat:@"Introduce una clave por favor :)"]
                                                     delegate:self
                                            cancelButtonTitle:@"OK"
@@ -103,7 +104,7 @@
                     message = @"Ha habido un error. Disculpe las molestias";
                 }
                 [indicator stopAnimating];
-                UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Información"
+                UIAlertView *av = [[UIAlertView alloc] initWithTitle:@""
                                                              message:message
                                                             delegate:self
                                                    cancelButtonTitle:@"OK"
@@ -131,6 +132,25 @@
             
         }];
     }
+}
+
+-(IBAction)facebook:(id)sender
+{
+    NSURL *url = [NSURL URLWithString:@"fb://profile/281514515307124"];
+    [[UIApplication sharedApplication] openURL:url];
+}
+
+-(IBAction)twitter:(id)sender
+{
+    NSURL *url = [NSURL URLWithString:@"twitter:///user?screen_name=quierobesarte.es"];
+    [[UIApplication sharedApplication] openURL:url];
+    
+}
+
+-(IBAction)vimeo:(id)sender
+{
+    NSURL *url = [NSURL URLWithString:@"https://vimeo.com/quierobesarte"];
+    [[UIApplication sharedApplication] openURL:url];
 }
 
 @end
