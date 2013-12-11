@@ -749,13 +749,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Quiero Besarte/Quiero Besarte-Prefix.pch";
 				INFOPLIST_FILE = "Quiero Besarte/Quiero Besarte-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "89B907DC-A5B7-42CA-9D01-ADDE50F79285";
+				PROVISIONING_PROFILE = "5D119044-4F75-4503-8E61-BDEBF3E36647";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -765,13 +765,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Quiero Besarte/Quiero Besarte-Prefix.pch";
 				INFOPLIST_FILE = "Quiero Besarte/Quiero Besarte-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "89B907DC-A5B7-42CA-9D01-ADDE50F79285";
+				PROVISIONING_PROFILE = "5D119044-4F75-4503-8E61-BDEBF3E36647";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
